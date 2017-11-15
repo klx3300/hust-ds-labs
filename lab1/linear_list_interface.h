@@ -120,9 +120,7 @@ int ListTraverse(SqList * l, int (* visit) (int e));
  * @Return True or False
  * @Usage this function is expected to be called in LocateElem
  */
-int compare(int a, int b) {
-    return a == b ? TRUE : FALSE;
-}
+int compare(int a, int b);
 
 /*
  * @Name visit
@@ -130,8 +128,5 @@ int compare(int a, int b) {
  * @Return void
  * @Usage this function is expected to be called in ListTraverse
  */
-void visit(int e) {
-    printf("%d ", e);
-}
-
+void visit(int e);
 #endif

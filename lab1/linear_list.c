@@ -7,7 +7,10 @@
  * @Return Success or Failure
  */
  int InitaList(SqList * l){
-     memset(l,0,sizeof(SqList));
+    memset(l,0,sizeof(SqList));
+    l->elem = (int*)malloc(sizeof(int)*10);
+    l->listsize = 10;
+    if(l->elem == NULL) return FAILURE;
     return SUCCESS;
  }
  
@@ -29,6 +32,7 @@
   * @Return Success or Failure
   */
  int ClearList(SqList * l){
+     if(l->elem == NULL) return FAILURE;
      memset(l->elem,0,l->listsize);
      l->length=0;
      return SUCCESS;
@@ -126,11 +130,12 @@
  int ListInsert(SqList * l, int pos, int e){
      if(pos>l->length) return FAILURE;
      if(l->listsize < l->length+1){
-        int* tmprealloc = malloc(sizeof(int)*(l->listsize)*2);
+        int* tmprealloc = (int*)malloc(sizeof(int)*(l->listsize)*2);
         if(tmprealloc == NULL) return FAILURE;
         l->listsize*=2;
         memset(tmprealloc,0,sizeof(int)*(l->listsize));
-        memcpy(tmprealloc,l->elem,l->length*sizeof(int));
+        if(l->elem != NULL)
+            memcpy(tmprealloc,l->elem,l->length*sizeof(int));
         l->elem = tmprealloc;
      }
      for(int i=l->length;i>pos;i--){
