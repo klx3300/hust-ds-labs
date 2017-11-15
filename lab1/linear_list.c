@@ -33,7 +33,7 @@
   * @Return Success or Failure
   */
  int ClearList(SqList * l){
-     if(l->elem == NULL) return FAILURE;
+     if(l->elem == NULL || l->listsize == 0) return FAILURE;
      memset(l->elem,0,l->listsize);
      l->length=0;
      return SUCCESS;
@@ -66,7 +66,7 @@
   */
  int GetElem(SqList * l, int i, int * e){
      i = i-1;
-     if(i >= l->length || i<0 || l->elem == NULL) return FAILURE;
+     if(i >= l->length || i<0 || l->elem == NULL || l->listsize == 0) return FAILURE;
      *e=(l->elem[i]);
      return SUCCESS;
  }
@@ -131,7 +131,7 @@
   */
  int ListInsert(SqList * l, int pos, int e){
      pos = pos-1;
-     if(pos>l->length || pos < 0 || l->elem == NULL) return FAILURE;
+     if(pos>l->length || pos < 0 || l->elem == NULL || l->listsize == 0) return FAILURE;
      if(l->listsize < l->length+1){
         int* tmprealloc = (int*)malloc(sizeof(int)*(l->listsize)*2);
         if(tmprealloc == NULL) return FAILURE;
@@ -158,7 +158,7 @@
   */
  int ListDelete(SqList * l, int pos, int * e){
      pos = pos-1;
-     if(pos>l->length-1 || pos < 0 || l->elem == NULL) return FAILURE;
+     if(pos>l->length-1 || pos < 0 || l->elem == NULL || l->listsize == 0) return FAILURE;
      *e = l->elem[pos];
      for(int i=pos;i<l->length-1;i++){
          l->elem[pos] = l->elem[pos+1];
