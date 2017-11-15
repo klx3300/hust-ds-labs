@@ -23,7 +23,8 @@
      if(l->elem!=NULL){
          free(l->elem);
      }
-     return InitaList(l);
+     memset(l,0,sizeof(SqList));
+     return SUCCESS;
  }
  
  /*
