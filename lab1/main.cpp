@@ -147,6 +147,8 @@ int main(void){
     FN("Insert(int listid,int position,int elemv)");
     FN("Delete(int listid,int position)");
     FN("Traverse(int listid)");
+    FN("Save(int listid,const char* file_path_to_save)");
+    FN("Load(int listid,const char* file_path_to_load)");
     FN("Note 1: Traverse visit() function is predefined in header files.");
     FN("Note 2: Only supports maximum of 100 lists.(listid 0~99)");
     pr.dispatch = dispatcher;
