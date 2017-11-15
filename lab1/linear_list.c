@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <errno.h>
 /*
  * @Name InitaList
  * @Args *l is the linear list being operated
@@ -186,7 +187,7 @@
 
  int Save(SqList* l,const char* path){
     if(ListEmpty(l) || l->listsize == 0) return FAILURE;
-    int fd = open(path,O_WRONLY|O_CREAT|O_TRUNC);
+    int fd = open(path,O_WRONLY|O_CREAT|O_TRUNC,0644);
     if(fd == -1){
         return FAILURE;
     }
@@ -199,6 +200,7 @@
  int Load(SqList* l,const char* path){
      int fd = open(path,O_RDONLY);
      if(fd == -1){
+         printf("[FAIL] UNIX err %s \n",strerror(errno));
          return FAILURE;
      }
      read(fd,l,sizeof(SqList));
