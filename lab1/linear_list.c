@@ -131,7 +131,7 @@
   */
  int ListInsert(SqList * l, int pos, int e){
      pos = pos-1;
-     if(pos>l->length) return FAILURE;
+     if(pos>l->length || pos < 0 || l->elem == NULL) return FAILURE;
      if(l->listsize < l->length+1){
         int* tmprealloc = (int*)malloc(sizeof(int)*(l->listsize)*2);
         if(tmprealloc == NULL) return FAILURE;
@@ -158,7 +158,7 @@
   */
  int ListDelete(SqList * l, int pos, int * e){
      pos = pos-1;
-     if(pos>l->length-1) return FAILURE;
+     if(pos>l->length-1 || pos < 0 || l->elem == NULL) return FAILURE;
      *e = l->elem[pos];
      for(int i=pos;i<l->length-1;i++){
          l->elem[pos] = l->elem[pos+1];
