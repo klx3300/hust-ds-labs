@@ -66,7 +66,7 @@
   */
  int GetElem(SqList * l, int i, int * e){
      i = i-1;
-     if(i >= l->length) return FAILURE;
+     if(i >= l->length || i<0 || l->elem == NULL) return FAILURE;
      *e=(l->elem[i]);
      return SUCCESS;
  }
