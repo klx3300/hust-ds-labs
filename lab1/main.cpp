@@ -116,6 +116,16 @@ void dispatcher(vector<FuncParams> params){
         int no = str_int(params[1].str);
         LNEX(no);
         ERRCHECK(ListTraverse(PTR(lists[no]),visit),"ListTraverse");
+    }else if(ISFUNC("Save")){
+        PAC(2);
+        int no = str_int(params[1].str);
+        LNEX(no);
+        ERRCHECK(Save(PTR(lists[no]),params[2].str.c_str()),"Save");
+    }else if(ISFUNC("Load")){
+        PAC(2);
+        int no = str_int(params[1].str);
+        LNEX(no);
+        ERRCHECK(Load(PTR(lists[no]),params[2].str.c_str()),"Load");
     }else{
         cout << "[FAIL] No matching function calls for " << params[0].str << endl;
     }

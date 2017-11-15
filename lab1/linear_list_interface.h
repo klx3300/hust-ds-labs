@@ -130,4 +130,8 @@ int compare(int a, int b);
  */
 int visit(int e);
 
+int Save(SqList* l,const char* filepath);
+
+int Load(SqList* l,const char* filepath);
+
 #endif

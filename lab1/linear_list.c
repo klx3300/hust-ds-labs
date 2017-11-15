@@ -1,6 +1,9 @@
 #include "linear_list_interface.h"
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
 /*
  * @Name InitaList
  * @Args *l is the linear list being operated
@@ -178,6 +181,29 @@
      for(int i=0;i<l->length;i++){
          visit(l->elem[i]);
      }
+     return SUCCESS;
+ }
+
+ int Save(SqList* l,const char* path){
+    if(ListEmpty(l) || l->listsize == 0) return FAILURE;
+    int fd = open(path,O_WRONLY|O_CREAT|O_TRUNC);
+    if(fd == -1){
+        return FAILURE;
+    }
+    write(fd,l,sizeof(SqList));
+    write(fd,l->elem,sizeof(int)*l->listsize);
+    close(fd);
+    return SUCCESS;
+ }
+
+ int Load(SqList* l,const char* path){
+     int fd = open(path,O_RDONLY);
+     if(fd == -1){
+         return FAILURE;
+     }
+     read(fd,l,sizeof(SqList));
+     l->elem = (int*)malloc(sizeof(int)*l->listsize);
+     read(fd,l->elem,sizeof(int)*l->listsize);
      return SUCCESS;
  }
  
