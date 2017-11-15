@@ -65,6 +65,7 @@
   * @Return Success or Failure
   */
  int GetElem(SqList * l, int i, int * e){
+     i = i-1;
      if(i >= l->length) return FAILURE;
      *e=(l->elem[i]);
      return SUCCESS;
@@ -80,7 +81,7 @@
   */
  int LocateElem(SqList * l, int e, int (* compare) (int a, int b)){
      for(int i=0;i<l->length;i++){
-         if(compare(l->elem[i],e)) return i;
+         if(compare(l->elem[i],e)) return i+1;
      }
      return 0;
  }
@@ -129,6 +130,7 @@
   * @Return Success or Failure
   */
  int ListInsert(SqList * l, int pos, int e){
+     pos = pos-1;
      if(pos>l->length) return FAILURE;
      if(l->listsize < l->length+1){
         int* tmprealloc = (int*)malloc(sizeof(int)*(l->listsize)*2);
@@ -155,6 +157,7 @@
   * @Return Success or Failure
   */
  int ListDelete(SqList * l, int pos, int * e){
+     pos = pos-1;
      if(pos>l->length-1) return FAILURE;
      *e = l->elem[pos];
      for(int i=pos;i<l->length-1;i++){
