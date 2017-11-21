@@ -11,7 +11,7 @@ void Prompt::start(){
     while(1){
         cout << "zhwk_prompt > ";
         if(!getline(cin,linebuffer)){
-            cout << "[EXIT] Parser reached end-of-file. Terminated." << endl;
+            cout << endl << "[EXIT] Parser reached end-of-file. Terminated." << endl;
             return;
         }
         lineno++;
