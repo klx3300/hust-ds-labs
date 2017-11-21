@@ -1,10 +1,6 @@
 #include "linear_list_interface.h"
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <errno.h>
 /*
  * @Name InitaList
  * @Args *l is the linear list being operated
@@ -182,30 +178,31 @@
      for(int i=0;i<l->length;i++){
          visit(l->elem[i]);
      }
+     printf("\n");
      return SUCCESS;
  }
 
  int Save(SqList* l,const char* path){
     if(ListEmpty(l) || l->listsize == 0) return FAILURE;
-    int fd = open(path,O_WRONLY|O_CREAT|O_TRUNC,0644);
-    if(fd == -1){
+    FILE* fd = fopen(path,"w");
+    if(fd == NULL){
         return FAILURE;
     }
-    write(fd,l,sizeof(SqList));
-    write(fd,l->elem,sizeof(int)*l->listsize);
-    close(fd);
+    fwrite(l,sizeof(SqList),1,fd);
+    fwrite(l->elem,sizeof(int)*l->listsize,1,fd);
+    fclose(fd);
     return SUCCESS;
  }
 
  int Load(SqList* l,const char* path){
-     int fd = open(path,O_RDONLY);
-     if(fd == -1){
-         printf("[FAIL] UNIX err %s \n",strerror(errno));
+     FILE* fd = fopen(path,"r");
+     if(fd == NULL){
          return FAILURE;
      }
-     read(fd,l,sizeof(SqList));
+     fread(l,sizeof(SqList),1,fd);
      l->elem = (int*)malloc(sizeof(int)*l->listsize);
-     read(fd,l->elem,sizeof(int)*l->listsize);
+     fread(l->elem,sizeof(int)*l->listsize,1,fd);
+     fclose(fd);
      return SUCCESS;
  }
  
