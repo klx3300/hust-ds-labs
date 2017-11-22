@@ -22,6 +22,8 @@
  int DestroyList(SqList * l){
      if(l->elem!=NULL){
          free(l->elem);
+     }else{
+         return FAILURE;
      }
      memset(l,0,sizeof(SqList));
      return SUCCESS;
@@ -161,7 +163,7 @@
      if(pos>l->length-1 || pos < 0 || l->elem == NULL || l->listsize == 0) return FAILURE;
      *e = l->elem[pos];
      for(int i=pos;i<l->length-1;i++){
-         l->elem[pos] = l->elem[pos+1];
+         l->elem[i] = l->elem[i+1];
      }
      l->length--;
      return SUCCESS;

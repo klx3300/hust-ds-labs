@@ -1,5 +1,7 @@
 cc(i686-w64-mingw32-gcc)
 cxx(i686-w64-mingw32-g++)
+#cc(gcc)
+#cxx(g++)
 macro(ldflags,-static)
 object(cc,linear_list.c,,linear_list)
 object(cxx,prompt.cpp,,prompt)
