@@ -21,33 +21,43 @@ int compare(int a, int b) {
 #define LIST_MAX_NUMBER 100
 array<SqList,LIST_MAX_NUMBER> lists;
 
+// convert string to int
 int str_int(string str){
     int tmpint = 0;
     sscanf(str.c_str(),"%d",&tmpint);
     return tmpint;
 }
+// check parameter number
 #define PACHECK(pararr,parnums) do{if((pararr).size()!=(parnums+1)){\
 cout << "[FAIL] Call parameter number mismatch: given " << (pararr).size() << " expected " << (parnums+1) << endl;\
 return ;}}while(0)
+// short version:read from environment
 #define PAC(parnums) PACHECK(params,parnums)
+// check the return value of spec function is SUCCESS or FAILED
 #define ERRCHECK(x,dispname) do{if((x)==SUCCESS){\
     cout << "[SUCC] Call " << dispname << "() succeed." << endl;\
 }else{\
     cout << "[FAIL] Call " << dispname << "() failed." << endl; return ;\
 }}while(0)
+// check the return value of spec function is TRUE or FALSE
 #define BOOLCHECK(x,dispname) do{if((x)==TRUE){\
     cout << "[TRUE] Call " << dispname << "() returned true." << endl;\
 }else{\
     cout << "[FALS] Call " << dispname << "() returned false." << endl; return ;\
 }}while(0)
+// print out the returned int value
 #define INTRETURN(x,dispname) do{cout << "[OUTV] Call " << dispname << "() returned value " << (x) << endl;}while(0)
+// print out the returned int value(via pointer)
 #define INTOUTV (&intout__retv)
 #define INTOUT(x,dispname) do{int intout__retv = 0;\
 ERRCHECK(x,dispname);\
 cout << "[OUTV] Call " << dispname << "() returned value " << intout__retv << endl;}while(0)
+// dispatch strings
 #define ISFUNC(x) (params[0].str==(x))
+// check if exceed max list numbers
 #define EXCEED(input,maximum) do{if(input >= maximum){cout << "[FAIL] Attempt to exceed " << #maximum << endl; return;}}while(0)
 #define LNEX(x) EXCEED(x,LIST_MAX_NUMBER)
+// dispatch to corresponding list functions
 void dispatcher(vector<FuncParams> params){
     if(ISFUNC("Init")){
         PAC(1);
@@ -131,6 +141,7 @@ void dispatcher(vector<FuncParams> params){
     }
 }
 
+// add help lines
 #define FN(x) pr.avail_funcs.push_back(x)
 
 int main(void){
@@ -152,5 +163,6 @@ int main(void){
     FN("Note 1: Traverse visit() function is predefined in header files.");
     FN("Note 2: Only supports maximum of 100 lists.(listid 0~99)");
     pr.dispatch = dispatcher;
+    // start interactive interpreter
     pr.start();
 }
