@@ -47,6 +47,7 @@
   * @Return True or False
   */
  int ListEmpty(SqList * l){
+     if(l->elem == NULL || l->listsize == 0) return -1;
      return l->length==0;
  }
  
@@ -56,6 +57,7 @@
   * @Return an integer which is the length of List
   */
  int ListLength(SqList * l){
+     if(l->elem == NULL || l->listsize == 0) return -1;
      return l->length;
  }
  
