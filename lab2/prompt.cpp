@@ -9,7 +9,7 @@ using namespace std;
 void Prompt::start(){
     string linebuffer;
     int lineno = 0;
-    qLogInfo("Welcome to imzhwk interactive shell!");
+    qLogInfofmt("Welcome to %s!",this->prompt_name.c_str());
     qLogInfo("Try help() to list available functions.");
     while(1){
         cout << "zhwk_prompt > ";

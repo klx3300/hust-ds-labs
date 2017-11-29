@@ -9,9 +9,9 @@
 #define SUCCESS 1
 #define FAILURE 0
 
-typedef struct LkList{
+typedef struct LkList_st{
     int elem;       // elem of current node
-    LkList * next;  // pointer of next node
+    struct LkList_st * next;  // pointer of next node
 }LkList;
 
 /*
@@ -119,9 +119,7 @@ extern int ListTraverse(LkList * l, void (* visit) (int e));
  * @Return True or False
  * @Usage this function is expected to be called in LocateElem
  */
-int compare(int a, int b) {
-    return a == b ? TRUE : FALSE;
-}
+int compare(int a, int b);
 
 /*
  * @Name visit
@@ -129,9 +127,7 @@ int compare(int a, int b) {
  * @Return void
  * @Usage this function is expected to be called in ListTraverse
  */
-void visit(int e) {
-    printf("%d ", e);
-}
+void visit(int e);
 
 int Save(LkList* l,const char* filepath);
 

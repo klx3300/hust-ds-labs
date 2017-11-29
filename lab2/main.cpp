@@ -11,6 +11,13 @@ using namespace std;
 
 #define PTR(x) (&(x))
 
+void visit(int e) {
+    printf("%d ", e);
+}
+int compare(int a, int b) {
+    return a == b ? TRUE : FALSE;
+}
+
 #define LIST_MAX_NUMBER 100
 array<LkList,LIST_MAX_NUMBER> lists;
 
@@ -22,33 +29,33 @@ int str_int(string str){
 }
 // check parameter number
 #define PACHECK(pararr,parnums) do{if((pararr).size()!=(parnums+1)){\
-cout << "[FAIL] Call parameter number mismatch: given " << (pararr).size() << " expected " << (parnums+1) << endl;\
+qLogFailfmt("Call parameter number mismatch: given %lu expected %d",(pararr).size(),(parnums)+1);\
 return ;}}while(0)
 // short version:read from environment
 #define PAC(parnums) PACHECK(params,parnums)
 // check the return value of spec function is SUCCESS or FAILED
 #define ERRCHECK(x,dispname) do{if((x)==SUCCESS){\
-    cout << "[SUCC] Call " << dispname << "() succeed." << endl;\
+    qLogSuccfmt("Call %s() succeed.",dispname);\
 }else{\
-    cout << "[FAIL] Call " << dispname << "() failed." << endl; return ;\
+    qLogFailfmt("Call %s() failed.",dispname); return ;\
 }}while(0)
 // check the return value of spec function is TRUE or FALSE
 #define BOOLCHECK(x,dispname) do{if((x)==TRUE){\
-    cout << "[TRUE] Call " << dispname << "() returned true." << endl;\
+    qLogSuccfmt("Call %s() returned true.",dispname);\
 }else{\
-    cout << "[FALS] Call " << dispname << "() returned false." << endl; return ;\
+    qLogFailfmt("Call %s() returned false.",dispname); return ;\
 }}while(0)
 // print out the returned int value
-#define INTRETURN(x,dispname) do{cout << "[OUTV] Call " << dispname << "() returned value " << (x) << endl;}while(0)
+#define INTRETURN(x,dispname) do{qLogSuccfmt("Call %s() returned value %d",dispname,x);}while(0)
 // print out the returned int value(via pointer)
 #define INTOUTV (&intout__retv)
 #define INTOUT(x,dispname) do{int intout__retv = 0;\
 ERRCHECK(x,dispname);\
-cout << "[OUTV] Call " << dispname << "() returned value " << intout__retv << endl;}while(0)
+qLogSuccfmt("Call %s() returned value %d",dispname,intout__retv);}while(0)
 // dispatch strings
 #define ISFUNC(x) (params[0].str==(x))
 // check if exceed max list numbers
-#define EXCEED(input,maximum) do{if(input >= maximum){cout << "[FAIL] Attempt to exceed " << #maximum << endl; return;}}while(0)
+#define EXCEED(input,maximum) do{if(input >= maximum){qLogFailfmt("Attempt to exceed %s",#maximum); return;}}while(0)
 #define LNEX(x) EXCEED(x,LIST_MAX_NUMBER)
 // dispatch to corresponding list functions
 void dispatcher(vector<FuncParams> params){
@@ -130,7 +137,7 @@ void dispatcher(vector<FuncParams> params){
         LNEX(no);
         ERRCHECK(Load(PTR(lists[no]),params[2].str.c_str()),"Load");
     }else{
-        cout << "[FAIL] No matching function calls for " << params[0].str << endl;
+        qLogFailfmt("No matching function calls for %s",params[0].str.c_str());
     }
 }
 
@@ -139,6 +146,7 @@ void dispatcher(vector<FuncParams> params){
 
 int main(void){
     Prompt pr;
+    pr.prompt_name = "Linked List demonstration system";
     FN("Init(int listid)");
     FN("Destroy(int listid)");
     FN("Clear(int listid)");

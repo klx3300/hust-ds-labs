@@ -6,7 +6,8 @@
 #include "parse_str/strparse.h"
 
 class Prompt{
-public: 
+public:
+    std::string prompt_name;
     std::vector<std::string> avail_funcs;
     void (*dispatch)(std::vector<FuncParams> parameters);
     void start();
