@@ -1,7 +1,7 @@
 #include "linked_list.h"
 #include <stdlib.h>
 #include <string.h>
-#include "log.h"
+//#include "log.h"
 
 typedef int (*Comparator)(int,int);
 typedef void (*Visitor)(int);
@@ -16,7 +16,7 @@ typedef LkList* LkListIterator;
 
 #define INITCHECK(lst) do{if((lst).next == NULL) return FAILURE;}while(0)
 
-#define INITPRCHECK(lst) do{if((lst).next == NULL) qLogFail("List uninitialized.");}while(0)
+#define INITPRCHECK(lst) do{if((lst).next == NULL) printf("List uninitialized.");}while(0)
 
 #define OVERFLOW(lst,index) do{if((lst).elem <= ((index)-HUST_DS_STARTPOS)){return FAILURE;}}while(0)
 
