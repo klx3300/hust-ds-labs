@@ -1,5 +1,8 @@
 #include "strparse.h"
 #include <iostream>
+extern "C"{
+    #include "../log.h"
+}
 
 using namespace std;
 
@@ -66,8 +69,7 @@ vector<FuncParams> parsefunc(string src,int lineno){
                     tmpstr += ch;
                     continue;
                 }
-                cerr << "[FAIL] Unsupported operation between normal paramter and " << endl;
-                cerr << "       string literal at " << lineno << ':' << tmpos << endl;
+                qLogFailfmt("Unsupported operation between normal paramter and string literal at %d:%d",lineno,tmpos);
                 return vector<FuncParams>();
             }else if(ch == ','){
                 if(escape_char){
@@ -110,8 +112,7 @@ vector<FuncParams> parsefunc(string src,int lineno){
             }else if(ch == ')'){
                 break;
             }else{
-                cerr << "[FAIL] Unsupported operation between normal parameter and " << endl;
-                cerr << "       string literal at " << lineno << ":" << tmpos << endl;
+                qLogFailfmt("Unsupported operation between normal parameter and string literal at %d:%d",lineno,tmpos);
                 return vector<FuncParams>();
             }
         }else{
@@ -122,9 +123,9 @@ vector<FuncParams> parsefunc(string src,int lineno){
             escape_char = false;
         }
     }
-    if(tmpstr != ""){
+    if(tmpstr != "" || FLAG == 4){
         // abnormal termination
-        cerr << "[FAIL] Unclosed function call at " << lineno << ":" << tmpos << endl;
+        qLogFailfmt("Unclosed function call at %d:%d",lineno,tmpos);
         return vector<FuncParams>();
     }
     return tmpvec;

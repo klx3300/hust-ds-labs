@@ -3,23 +3,16 @@
 #include "prompt.h"
 #include <cstdio>
 extern "C" {
-    #include "linear_list_interface.h"
+    #include "linked_list.h"
+    #include "log.h"
 }
 
 using namespace std;
 
-int visit(int e){
-    printf("%d ", e);
-    return 0;
-}
-int compare(int a, int b) {
-    return a == b ? TRUE : FALSE;
-}
-
 #define PTR(x) (&(x))
 
 #define LIST_MAX_NUMBER 100
-array<SqList,LIST_MAX_NUMBER> lists;
+array<LkList,LIST_MAX_NUMBER> lists;
 
 // convert string to int
 int str_int(string str){

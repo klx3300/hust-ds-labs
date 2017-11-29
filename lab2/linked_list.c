@@ -1,7 +1,7 @@
 #include "linked_list.h"
 #include <stdlib.h>
 #include <string.h>
-//#include "log.h"
+#include "log.h"
 
 typedef int (*Comparator)(int,int);
 typedef void (*Visitor)(int);
@@ -16,7 +16,7 @@ typedef LkList* LkListIterator;
 
 #define INITCHECK(lst) do{if((lst).next == NULL) return FAILURE;}while(0)
 
-#define INITPRCHECK(lst) do{if((lst).next == NULL) printf("List uninitialized.");}while(0)
+#define INITPRCHECK(lst) do{if((lst).next == NULL) qLogFail("List uninitialized.");}while(0)
 
 #define OVERFLOW(lst,index) do{if((lst).elem <= ((index)-HUST_DS_STARTPOS)){return FAILURE;}}while(0)
 #define INSOVERFLOW(lst,index) do{if((lst).elem < ((index)-HUST_DS_STARTPOS)){return FAILURE;}}while(0)
@@ -152,5 +152,40 @@ int ListTraverse(LkList* l,Visitor v){
     for(LkListIterator iter=l->next;iter->next!=NULL;iter=iter->next){
         v(iter->elem);
     }
+    return SUCCESS;
+}
+
+int Save(LkList* l,const char* filepath){
+    INITCHECK(*l);
+    FILE* fd = fopen(filepath,"w");
+    if(fd == NULL){
+        return FAILURE;
+    }
+    fwrite(&(l->elem),sizeof(int),1,fd);
+    for(LkListIterator iter=l->next;iter->next != NULL;iter=iter->next){
+        fwrite(&(iter->elem),sizeof(int),1,fd);
+    }
+    fclose(fd);
+    return SUCCESS;
+}
+
+int Load(LkList* l,const char* filepath){
+    if(l->next == NULL){
+        InitaList(l);
+    }else{
+        ClearList(l);
+    }
+    FILE* fd = fopen(filepath,"r");
+    if(fd == NULL){
+        return FAILURE;
+    }
+    int cnts = 0;
+    fread(&cnts,sizeof(int),1,fd);
+    for(int i=0;i<cnts;i++){
+        int tmp = 0;
+        fread(&tmp,sizeof(int),1,fd);
+        ListInsert(l,i,tmp);
+    }
+    fclose(fd);
     return SUCCESS;
 }

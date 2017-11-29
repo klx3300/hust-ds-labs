@@ -130,7 +130,11 @@ int compare(int a, int b) {
  * @Usage this function is expected to be called in ListTraverse
  */
 void visit(int e) {
-    printf("%d", e);
+    printf("%d ", e);
 }
+
+int Save(LkList* l,const char* filepath);
+
+int Load(LkList* l,const char* filepath);
 
 #endif
