@@ -1,3 +1,8 @@
+#ifndef HUST_DS_LINKED_LIST_H
+#define HUST_DS_LINKED_LIST_H
+
+#include <stdio.h>
+
 #define TRUE 1
 #define FALSE 0
 
@@ -127,3 +132,5 @@ int compare(int a, int b) {
 void visit(int e) {
     printf("%d", e);
 }
+
+#endif
