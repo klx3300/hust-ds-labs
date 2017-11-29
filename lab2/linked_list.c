@@ -49,6 +49,7 @@ int ClearList(LkList* l){
         l->next=next;
         iter=next;
     }
+    l->elem = 0;
     return SUCCESS;
 } 
 
