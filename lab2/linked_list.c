@@ -9,7 +9,7 @@ typedef void (*Visitor)(int);
 typedef LkList* LkListIterator;
 #define HUST_DS_STARTPOS 1
 
-#define ALLOCCHK(clvar,size) do{(clvar)=malloc(size);if((clvar) == NULL){return FAILURE;}}while(0)
+#define ALLOCCHK(clvar,size) do{(clvar)=(LkList*)malloc(size);if((clvar) == NULL){return FAILURE;}}while(0)
 #define ZEROINIT(ptr,size) memset(ptr,0,size)
 
 #define DEFALLOC(ptr,size) ALLOCCHK(ptr,size);ZEROINIT(ptr,size);
@@ -19,6 +19,7 @@ typedef LkList* LkListIterator;
 #define INITPRCHECK(lst) do{if((lst).next == NULL) printf("List uninitialized.");}while(0)
 
 #define OVERFLOW(lst,index) do{if((lst).elem <= ((index)-HUST_DS_STARTPOS)){return FAILURE;}}while(0)
+#define INSOVERFLOW(lst,index) do{if((lst).elem < ((index)-HUST_DS_STARTPOS)){return FAILURE;}}while(0)
 
 int InitaList(LkList* l){
     if(l->next != NULL){
@@ -115,7 +116,7 @@ int NextElem(LkList* l,int cur_e,int* next_e){
 
 int ListInsert(LkList* l,int pos,int elem){
     INITCHECK(*l);
-    OVERFLOW(*l,pos);
+    INSOVERFLOW(*l,pos);
     LkListIterator iter = l;
     for(int iterpos = HUST_DS_STARTPOS;iterpos<pos;iterpos++){
         iter=iter->next;
