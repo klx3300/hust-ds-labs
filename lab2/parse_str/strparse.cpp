@@ -110,6 +110,7 @@ vector<FuncParams> parsefunc(string src,int lineno){
             if(ch == ','){
                 FLAG = 1;
             }else if(ch == ')'){
+                FLAG = 2;
                 break;
             }else{
                 qLogFailfmt("Unsupported operation between normal parameter and string literal at %d:%d",lineno,tmpos);

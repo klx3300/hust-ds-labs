@@ -105,7 +105,7 @@ int PriorElem(LkList* l,int cur_e,int* prev_e){
 int NextElem(LkList* l,int cur_e,int* next_e){
     INITCHECK(*l);
     LkListIterator iter=l->next;
-    for(;iter->next != NULL;iter++){
+    for(;iter->next != NULL;iter=iter->next){
         if(iter->elem == cur_e) break;
     }
     if(iter->next != NULL && iter->next->next != NULL){
@@ -184,7 +184,7 @@ int Load(LkList* l,const char* filepath){
     for(int i=0;i<cnts;i++){
         int tmp = 0;
         fread(&tmp,sizeof(int),1,fd);
-        ListInsert(l,i,tmp);
+        ListInsert(l,i+HUST_DS_STARTPOS,tmp);
     }
     fclose(fd);
     return SUCCESS;

@@ -31,10 +31,12 @@ fprintf(stderr,qLog_TIME_FMT_STR,timerep->tm_mon,timerep->tm_mday,\
 timerep->tm_year+1900,timerep->tm_hour,timerep->tm_min,timerep->tm_sec);}while(0)
 */
 #define qLogCurrTime() 1
-#define qLog(lvl,tag,color,str) do{if(Q_LOG_LOGLEVEL <= lvl){\
+/*#define qLog(lvl,tag,color,str) do{if(Q_LOG_LOGLEVEL <= lvl){\
 qfmtColorizerF(stderr,"[",tag,"]",color);qLogCurrTime();fprintf(stderr,str);fprintf(stderr,"\n");}}while(0)
 #define qLogfmt(lvl,tag,color,fmtstr,...) do{if(Q_LOG_LOGLEVEL <= lvl){\
-qfmtColorizerF(stderr,"[",tag,"]",color);qLogCurrTime();fprintf(stderr,fmtstr,__VA_ARGS__);fprintf(stderr,"\n");}}while(0)
+qfmtColorizerF(stderr,"[",tag,"]",color);qLogCurrTime();fprintf(stderr,fmtstr,__VA_ARGS__);fprintf(stderr,"\n");}}while(0)*/
+#define qLog(lvl,tag,color,str) do{fprintf(stderr,"[%s] ",tag);fprintf(stderr,str);fprintf(stderr,"\n");}while(0)
+#define qLogfmt(lvl,tag,color,fmtstr,...) do{fprintf(stderr,"[%s] ",tag);fprintf(stderr,fmtstr,__VA_ARGS__);fprintf(stderr,"\n");}while(0)
 
 #define qLogDebug(str) qLog(Q_LOG_DEBUG,"DEBG",Q_COLOR_WHITE,str)
 #define qLogDebugfmt(fmtstr,...) qLogfmt(Q_LOG_DEBUG,"DEBG",Q_COLOR_WHITE,fmtstr,__VA_ARGS__)
