@@ -61,8 +61,8 @@ return ;}}while(0)
 // print out the returned int value
 #define INTRETURN(x,dispname) do{qLogSuccfmt("Call %s() returned value %d",dispname,x);}while(0)
 #define PTRRETURN(x,dispname) do{TreeNode* ptr = (x);\
-if(ptr != NULL) qLogSuccfmt("Call %s returned Index[%d],Value[%d]",dispname,ptr->index,ptr->value);\
-else qLogFailfmt("Call %s failed",dispname);}while(0)
+if(ptr != NULL) qLogSuccfmt("Call %s() returned Index[%d],Value[%d]",dispname,ptr->index,ptr->value);\
+else qLogFailfmt("Call %s() failed",dispname);}while(0)
 // print out the returned int value(via pointer)
 #define INTOUTV (&intout__retv)
 #define INTOUT(x,dispname) do{int intout__retv = 0;\
@@ -193,7 +193,7 @@ void dispatcher(vector<FuncParams> params){
         int no = str_int(params[1].str);
         LNEX(no);
         ERRCHECK(LevelOrderTraverse(PTR(lists[no]),visit),"LevelOrderTraverse");
-    }/*else if(ISFUNC("Save")){
+    }else if(ISFUNC("Save")){
         PAC(2);
         int no = str_int(params[1].str);
         LNEX(no);
@@ -203,7 +203,7 @@ void dispatcher(vector<FuncParams> params){
         int no = str_int(params[1].str);
         LNEX(no);
         ERRCHECK(Load(PTR(lists[no]),params[2].str.c_str()),"Load");
-    }*/else{
+    }else{
         qLogFailfmt("No matching function calls for %s",params[0].str.c_str());
     }
 }
@@ -234,8 +234,8 @@ int main(void){
     FN("InOrderTraverse(int treeid)");
     FN("PostOrderTraverse(int treeid)");
     FN("LevelOrderTraverse(int treeid)");
-    FN("Save(int listid,const char* file_path_to_save)");
-    FN("Load(int listid,const char* file_path_to_load)");
+    FN("Save(int treeid,const char* file_path_to_save)");
+    FN("Load(int treeid,const char* file_path_to_load)");
     FN("Note 1: Traverse visit() function is predefined in header files.");
     FN("Note 2: Only supports maximum of 100 lists.(listid 0~99)");
     FN("Note 3: Create() last two parameters must be in \"1,2,3\"-like form.");

@@ -24,8 +24,8 @@
 typedef struct TreeNode{
     int index;              // index for each node
     int value;              // value (you can set it the same with its index at the beginning)
-    TreeNode * leftChild;   // pointer to the left child
-    TreeNode * rightChild;  // pointer to the right child
+    struct TreeNode * leftChild;   // pointer to the left child
+    struct TreeNode * rightChild;  // pointer to the right child
 }TreeNode;
 
 /*
@@ -211,5 +211,8 @@ int LevelOrderTraverse(TreeNode * head, void (*visit)(int value));
  * @Tips you can do what you wanna do here
  */
 void visit(int value);
+
+int Save(TreeNode* head,const char* path);
+int Load(TreeNode* head,const char* path);
 
 #endif //STRUCTUREEXPRUNITTEST_BINARY_TREE_H

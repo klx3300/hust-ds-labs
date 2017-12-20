@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "log.h"
 #define Q__LD_MAGIC "__listdesc"
 struct q__List{
     void* data;
@@ -256,7 +257,7 @@ typedef void (*Visitor)(TreeNode*,void*);
 
 #define INITCHK(node) ((node)->index == -1 && (node)->rightChild == NULL)
 #define DEFALLOC(type,var) type* var=malloc(sizeof(type));memset(var,0,sizeof(type));
-#define EXISTCHK(node) (INITCHK(node) && (node)->rightChild != NULL)
+#define EXISTCHK(node) (INITCHK(node) && (node)->leftChild != NULL)
 
 int searcharr(int *arr,int size,int target){
     for(int i=0;i<size;i++)
@@ -300,6 +301,7 @@ TreeNode* CreateBiTreeRecursively(int* defa,int* defb,int lesser,int most,int *c
         return CreateBiTreeRecursively(defa,defb,lesser,most,&ncurr);
     }
     int whereis = searcharr(defb+lesser,most-lesser,defa[*curr]);
+    if(whereis != -1) whereis = whereis + lesser;
     if(whereis == -1){
         // should not be allocated here
         return NULL;
@@ -316,7 +318,7 @@ int CreateBiTree(TreeNode * head, int * definition1, int * definition2, int leng
     if(!INITCHK(head) || EXISTCHK(head)){
         return FAILURE;
     }
-    head->rightChild = CreateBiTreeRecursively(definition1,definition2,0,lengthOfDef,NULL);
+    head->leftChild = CreateBiTreeRecursively(definition1,definition2,0,lengthOfDef,NULL);
     return SUCCESS;
 }
 
@@ -397,7 +399,7 @@ TreeNode* ParentRecursively(TreeNode* head,int index){
 }
 
 TreeNode* Parent(TreeNode* head,int index){
-    if(!EXISTCHK(head)) return NULL;
+    if(!EXISTCHK(head)){return NULL;}
     return ParentRecursively(head->leftChild,index);
 }
 
@@ -552,23 +554,82 @@ void XFSVisitor(TreeNode* node,void* visitfunc){
 int PreOrderTraverse(TreeNode * head, void (*visit)(int value)){
     if(!EXISTCHK(head)) return FAILURE;
     BiTreeTraverse(head->leftChild,ORDER_PRE,XFSVisitor,visit);
+    printf("\n");
     return SUCCESS;
 }
 
 int InOrderTraverse(TreeNode * head, void (*visit)(int value)){
     if(!EXISTCHK(head)) return FAILURE;
     BiTreeTraverse(head->leftChild,ORDER_IN,XFSVisitor,visit);
+    printf("\n");
     return SUCCESS;
 }
 
 int PostOrderTraverse(TreeNode * head, void (*visit)(int value)){
     if(!EXISTCHK(head)) return FAILURE;
     BiTreeTraverse(head->leftChild,ORDER_POST,XFSVisitor,visit);
+    printf("\n");
     return SUCCESS;
 }
 
 int LevelOrderTraverse(TreeNode * head, void (*visit)(int value)){
     if(!EXISTCHK(head)) return FAILURE;
     BroadFirstTraverse(head->leftChild,XFSVisitor,visit);
+    printf("\n");
+    return SUCCESS;
+}
+
+void ListInsertOnTraverse(TreeNode* node,void* vptr_listdesc){
+    qListDescriptor* desc = vptr_listdesc;
+    qList_push_back(*desc,node->value);
+}
+
+int Save(TreeNode* head,const char* path){
+    if(!EXISTCHK(head)) return FAILURE;
+    qListDescriptor pre_desc,in_desc;
+    qList_initdesc(pre_desc);
+    qList_initdesc(in_desc);
+    BiTreeTraverse(head->leftChild,ORDER_PRE,ListInsertOnTraverse,&pre_desc);
+    BiTreeTraverse(head->leftChild,ORDER_IN,ListInsertOnTraverse,&in_desc);
+    int *prearr=malloc(sizeof(int)*pre_desc.size);
+    int *inarr=malloc(sizeof(int)*in_desc.size);
+    memset(prearr,0,sizeof(int)*pre_desc.size);
+    memset(inarr,0,sizeof(int)*in_desc.size);
+    int curr = 0;
+    qList_foreach(pre_desc,iter){
+        prearr[curr] = *(int*)(iter->data);
+        curr ++;
+    }
+    curr = 0;
+    qList_foreach(in_desc,iter){
+        inarr[curr] = *(int*)(iter->data);
+        curr ++;
+    }
+    FILE* fd = fopen(path,"w");
+    if(fd == NULL) return FAILURE;
+    fwrite(&(pre_desc.size),sizeof(int),1,fd);
+    fwrite(&(in_desc.size),sizeof(int),1,fd);
+    fwrite(prearr,sizeof(int)*pre_desc.size,1,fd);
+    fwrite(inarr,sizeof(int)*in_desc.size,1,fd);
+    fclose(fd);
+    free(prearr);free(inarr);
+    qList_destructor(pre_desc);
+    qList_destructor(in_desc);
+    return SUCCESS;
+}
+
+int Load(TreeNode* head,const char* path){
+    InitBiTree(head);
+    FILE* fd = fopen(path,"r");
+    int sizes[2];
+    fread(sizes,sizeof(int)*2,1,fd);
+    int* prearr = malloc(sizeof(int)*sizes[0]);
+    int* inarr = malloc(sizeof(int)*sizes[1]);
+    fread(prearr,sizeof(int)*sizes[0],1,fd);
+    fread(inarr,sizeof(int)*sizes[1],1,fd);
+    CreateBiTree(head,prearr,inarr,sizes[0]);
+    free(prearr);
+    free(inarr);
+    fclose(fd);
     return SUCCESS;
 }
