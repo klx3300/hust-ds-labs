@@ -1,5 +1,8 @@
 __fake_main__: main
 
+qlist.o: qList.c
+	@echo "   gcc   qlist.o"
+	@gcc -c -g -o qlist.o qList.c
 binary_tree.o: binary_tree.c
 	@echo "   gcc   binary_tree.o"
 	@gcc -c -g -o binary_tree.o binary_tree.c
@@ -15,9 +18,9 @@ main.o: main.cpp
 format.o: format/format.c
 	@echo "   gcc   format.o"
 	@gcc -c -g -o format.o format/format.c
-main: main.o strparse.o binary_tree.o prompt.o format.o 
+main: main.o qlist.o strparse.o binary_tree.o prompt.o format.o 
 	@echo "   LD   main"
-	@g++ -static -o main main.o strparse.o binary_tree.o prompt.o format.o 
+	@g++ -static -o main main.o qlist.o strparse.o binary_tree.o prompt.o format.o 
 clean:
 	@echo "  CLEAN   all files."
-	-@rm binary_tree.o prompt.o strparse.o main.o format.o main  || true
+	-@rm qlist.o binary_tree.o prompt.o strparse.o main.o format.o main  || true
