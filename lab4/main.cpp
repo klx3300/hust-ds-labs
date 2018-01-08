@@ -192,6 +192,8 @@ int main(void){
     FN("PutValue(int graphid,int index,int value)");
     FN("FirstAdjVex(int graphid,int index)");
     FN("NextAdjVex(int graphid,int index,int prevdest)");
+    FN("InsertVex(int graphid,int value)");
+    FN("DeleteVex(int graphid,int index)");
     FN("InsertArc(int graphid,int srcindex,int dstindex,int priority)");
     FN("DeleteArc(int graphid,int srcindex,int dstindex)");
     FN("DFSTraverse(int graphid)");

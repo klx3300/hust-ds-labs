@@ -101,12 +101,9 @@ int InsertVex(GraphDescriptor* desc,int value){
     qVector_push_back(desc->vertices,tmpvert);
     return SUCCESS;
 }
-int DeleteVex(GraphDescriptor* desc,int value){
+int DeleteVex(GraphDescriptor* desc,int index){
     if(!EXISTCHK(desc)) return FAILURE;
     // gotta keep the edges correct after deletion
-    int index = 0;
-    int gindex_succ = GetIndex(desc,value,&index);
-    if(gindex_succ != SUCCESS) return FAILURE;
     // 1. iter through all edges,
     //    remove ones that corr to this
     //    and decrease larger ones
